@@ -1,7 +1,6 @@
 # algofi-py-sdk
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/Algofiorg/algofi-py-sdk/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/Algofiorg/algofi-py-sdk/tree/main)
-
 [![Documentation Status](https://readthedocs.org/projects/algofi-py-sdk/badge/?version=latest)](https://algofi-py-sdk.readthedocs.io/en/latest/?badge=latest)
 
 Official Python SDK for the Algofi Lending Protocol
