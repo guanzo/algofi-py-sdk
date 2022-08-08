@@ -1,11 +1,2 @@
-cffi==1.15.0
-msgpack==1.0.2
 py-algorand-sdk==1.16.0
-pycparser==2.20
-pycryptodomex==3.11.0
-PyNaCl==1.4.0
 python-dotenv==0.19.1
-six==1.16.0
-m2r
-sphinx==5.1.1
-sphinx-rtd-theme
