@@ -360,7 +360,7 @@ class Client:
             app_id = self.get_staking_contract(staking_contract_name).get_manager_app_id()
 
         while next_page is not None:
-            account_data = self.indexer.accounts(limit=1000, next_page=next_page, application_id=app_id)
+            account_data = self.indexer.accounts(limit=1000, next_page=next_page, application_id=app_id, exclude="assets")
             # filter on accounts with b'ua' in their local state for app_id
             accounts_filtered = []
             for account in account_data["accounts"]:

@@ -402,7 +402,7 @@ def get_accounts_opted_into_app(indexer, app_id):
     next_page = ""
     accounts = []
     while next_page is not None:
-        account_data = indexer.accounts(limit=1000, next_page=next_page, application_id=app_id)
+        account_data = indexer.accounts(limit=1000, next_page=next_page, application_id=app_id, exclude="assets")
         accounts.extend([account["address"] for account in account_data["accounts"]])
         if "next-token" in account_data:
             next_page = account_data["next-token"]
