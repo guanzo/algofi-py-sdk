@@ -62,7 +62,7 @@ class Manager:
         """Return a list of current rewards program
         
         :return: rewards program
-        :rtype: :class:`RewardsProgram
+        :rtype: :class:`RewardsProgram`
         """
         return self.rewards_program
     
