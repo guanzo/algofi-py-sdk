@@ -1,0 +1,3 @@
+m2r
+sphinx==5.1.1
+sphinx-rtd-theme
