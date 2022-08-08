@@ -119,7 +119,7 @@ class StakingContract:
         """Return a list of current rewards program
         
         :return: rewards program
-        :rtype: :class:`RewardsProgram
+        :rtype: :class:`RewardsProgram`
         """
         return self.get_manager().get_rewards_program()
 

@@ -861,19 +861,15 @@ class Client:
 
     def prepare_send_governance_commitment_transactions(self, governance_address, commitment_amount, address=None, beneficiary=None, check_vault_balance=True):
         """Returns a send governance commitment group transaction. A zero-value PaymentTxn with formatted notes field. 
-        Format for notes field can be found within Algorand Foundation Governance Spec at 
-        <https://github.com/algorandfoundation/governance/blob/main/af-gov1-spec.md>
+        Format for notes field can be found within Algorand Foundation Governance Spec at <https://github.com/algorandfoundation/governance/blob/main/af-gov1-spec.md>
 
-        :param governance_address: governance address to send commitment txn to. Get governance address from <https://governance.algorand.foundation/api/periods> 
-        within the relevant period "sign_up_address"
+        :param governance_address: governance address to send commitment txn to. Get governance address from <https://governance.algorand.foundation/api/periods> within the relevant period "sign_up_address"
         :type governance_address: string
         :param commitment_amount: amount of ALGOs (in microalgos) to commit to governance
         :type commitment_amount: int
-        :param address: defaults to client user address. address to send send governance commitment transaction group from. 
-        this is the primary account address for Algofi, not the vault account address from which the commitment inner transaction will originate.
+        :param address: defaults to client user address. address to send send governance commitment transaction group from. This is the primary account address for Algofi, not the vault account address from which the commitment inner transaction will originate.
         :type address: string, optional
-        :param beneficiary: specify a beneficiary of the governance rewards. governance rewards will be sent from the Algorand Foundation 
-        to this address at the end of governance if the vault account is eligible for rewards.
+        :param beneficiary: specify a beneficiary of the governance rewards. governance rewards will be sent from the Algorand Foundation to this address at the end of governance if the vault account is eligible for rewards.
         :type beneficiary: string, optional
         :param check_vault_balance: checks the ALGO balance of the Vault. raises exception if commitment amount > the ALGO balance of the Vault account.
         :type check_vault_balance: boolean, default True
@@ -915,23 +911,11 @@ class Client:
         Format for voting notes field can be found within Algorand Foundation Governance Spec at 
         <https://github.com/algorandfoundation/governance/blob/main/af-gov1-spec.md>
 
-        :param governance_address: governance address to send vote txn to. Get governance address from <https://governance.algorand.foundation/api/periods> 
-        within the relevant period "sign_up_address"
+        :param governance_address: governance address to send vote txn to. Get governance address from <https://governance.algorand.foundation/api/periods> within the relevant period "sign_up_address".
         :type governance_address: string
-        :param note: notes field for voting in governance. see spec for voting notes field at 
-        https://github.com/algorandfoundation/governance/blob/main/af-gov1-spec.md
-        format is af/gov1:j[idx,q1,q2,...]
-        idx is the voting session index which can be found at https://governance.algorand.foundation/api/periods
-        under the proper governance period within "voting_sessions" under the "id" field
-        q1,q2 are votes to the specific measures within a given voting session
-        example 1 (vote with all ALGOs on choice "a" in measure 1 and choice "c" in measure 2): af/gov1:j[4,"a","c"]
-        example 2 (vote choice "a" with 100 microalgos and choice "b" with 900 microalgos in measure 1; vote choice "c" with all microalgos in measure 2): af/gov1:j[4,{"a":100,"b":900},"c"]
-        NOTE: in example 2, voting with less than full commitment requires that the full commitment is distributing across all choices. for example, if 
-        you commit 1000 microalgos via the Vault, during voting you must use all 1000 microalgos in voting. in a 2-choice vote, you could not vote choice "a" 
-        with 100 and choice "b" with 899 microalgos. the sum must be 1000 microalgos (100 + 899 = 999 != 1000)
+        :param note: notes field for voting in governance. see spec for voting notes field at <https://github.com/algorandfoundation/governance/blob/main/af-gov1-spec.md>.
         :type note: bytes
-        :param address: defaults to client user address. address to send send governance vote transaction group from. 
-        this is the primary account address for Algofi, not the vault account address from which the vote inner transaction will originate.
+        :param address: defaults to client user address. address to send send governance vote transaction group from. this is the primary account address for Algofi, not the vault account address from which the vote inner transaction will originate.
         :type address: string, optional
         :return: send governance vote transaction group
         :rtype: :class:`TransactionGroup`
