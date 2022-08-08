@@ -3,3 +3,4 @@ python-dotenv==0.19.1
 m2r
 sphinx==5.1.1
 sphinx-rtd-theme
+m2r2
