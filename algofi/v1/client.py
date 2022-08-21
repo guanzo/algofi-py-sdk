@@ -326,21 +326,27 @@ class Client:
         """
         return self.active_ordered_symbols
 
-    def get_raw_prices(self):
-        """Returns a dictionary of raw oracle prices of the active assets pulled from their oracles
-
+    def get_raw_prices(self, update=True):
+        """Returns a dictionary of raw oracle prices of the active assets pulled from their oracles.
+           If update is False returns the latest updated raw prices
+        
+        :param update: fetch updated prices if True
+        :type update: bool, optional
         :return: dictionary of int prices
         :rtype: dict
         """
-        return {symbol : market.get_asset().get_raw_price() for symbol, market in self.get_active_markets().items()}
+        return {symbol : market.get_asset().get_raw_price(update=update) for symbol, market in self.get_active_markets().items()}
 
-    def get_prices(self):
-        """Returns a dictionary of dollarized float prices of the active assets pulled from their oracles
+    def get_prices(self, update=True):
+        """Returns a dictionary of dollarized float prices of the active assets pulled from their oracles.
+           If update is False returns the latest updated dollarized float prices
 
+        :param update: fetch updated prices if True
+        :type update: bool, optional    
         :return: dictionary of int prices
         :rtype: dict
         """
-        return {symbol : market.get_asset().get_price() for symbol, market in self.get_active_markets().items()}
+        return {symbol : market.get_asset().get_price(update=update) for symbol, market in self.get_active_markets().items()}
 
     # INDEXER HELPERS
 
