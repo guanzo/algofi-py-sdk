@@ -58,6 +58,7 @@ class Asset:
         self.oracle_app_id = oracle_app_id
         self.oracle_price_field = oracle_price_field
         self.oracle_price_scale_factor = oracle_price_scale_factor
+        self.oracle_raw_price = self.get_raw_price()
 
     def get_underlying_asset_id(self):
         """Returns underying asset id
@@ -115,20 +116,26 @@ class Asset:
         """
         return self.oracle_price_scale_factor
     
-    def get_raw_price(self, block=None):
-        """Returns the current raw oracle price
+    def get_raw_price(self, block=None, update=True):
+        """Returns the current raw oracle price if update.
+           Else returns the latest updated raw price
 
         :param block: block at which to get historical data
         :type block: int, optional
+        :param update: fetch updated prices if True
+        :type update: bool, optional
         :return: oracle price
         :rtype: int
         """
         if self.oracle_app_id == None:
             raise Exception("no oracle app id for asset")
-        if block:
+        if not update:
+            return self.oracle_raw_price
+        elif block:
             return get_global_state_field(self.historical_indexer, self.oracle_app_id, self.oracle_price_field, block=block)
         else:
-            return get_global_state_field(self.indexer, self.oracle_app_id, self.oracle_price_field)
+            self.oracle_raw_price = get_global_state_field(self.indexer, self.oracle_app_id, self.oracle_price_field)
+            return self.oracle_raw_price
     
     def get_underlying_decimals(self):
         """Returns decimals of asset
@@ -138,20 +145,23 @@ class Asset:
         """
         return self.underlying_asset_info['decimals']
     
-    def get_price(self, block=None):
-        """Returns the current oracle price
+    def get_price(self, block=None, update=True):
+        """Returns the current oracle price if update.
+           Else returns the latest updated price
 
         :param block: block at which to get historical data
         :type block: int, optional
+        :param update: fetch updated prices if True
+        :type update: bool, optional
         :return: oracle price
         :rtype: int
         """
         if self.oracle_app_id == None:
             raise Exception("no oracle app id for asset")
-        raw_price = self.get_raw_price(block=block)
+        raw_price = self.get_raw_price(block=block, update=update)
         return float((raw_price * 10**self.get_underlying_decimals()) / (self.get_oracle_price_scale_factor() * 1e3))
     
-    def to_usd(self, amount, block=None):
+    def to_usd(self, amount, block=None, update=True):
         """Return the usd value of the underlying amount (base units)
         
         :param amount: integer amount of base underlying units
@@ -161,7 +171,7 @@ class Asset:
         :return: usd value
         :rtype: float
         """
-        price = self.get_price(block=block)
+        price = self.get_price(block=block, update=update)
         return float(amount * price / (10**self.get_underlying_decimals()))
 
     def get_scaled_amount(self, amount):
