@@ -1,14 +1,21 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup, int_to_bytes
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_claim_rewards_transactions(sender, suggested_params, storage_account, manager_app_id, supported_market_app_ids, supported_oracle_app_ids, foreign_assets):
+def prepare_claim_rewards_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    manager_app_id,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+    foreign_assets,
+):
     """Returns a :class:`TransactionGroup` object representing a claim rewards
-    underlying group transaction against the algofi protocol. The sender requests 
-    to claim rewards from the manager acount. If not, the account sends 
+    underlying group transaction against the algofi protocol. The sender requests
+    to claim rewards from the manager acount. If not, the account sends
     back the user the amount of asset underlying their posted collateral.
 
     :param sender: account address for the sender
@@ -35,7 +42,7 @@ def prepare_claim_rewards_transactions(sender, suggested_params, storage_account
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
@@ -43,7 +50,7 @@ def prepare_claim_rewards_transactions(sender, suggested_params, storage_account
         index=manager_app_id,
         app_args=[manager_strings.claim_rewards.encode()],
         accounts=[storage_account],
-        foreign_assets=foreign_assets
+        foreign_assets=foreign_assets,
     )
 
     txn_group = TransactionGroup(prefix_transactions + [txn0])

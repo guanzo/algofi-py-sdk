@@ -1,15 +1,24 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup, int_to_bytes
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_remove_collateral_underlying_transactions(sender, suggested_params, storage_account, amount, asset_id, manager_app_id, market_app_id, supported_market_app_ids, supported_oracle_app_ids):
-    """Returns a :class:`TransactionGroup` object representing a remove collateral 
-    underlying group transaction against the algofi protocol. Functionally equivalent to 
-    remove collateral + burn. The sender requests to remove collateral from a market acount 
-    after which the application determines if the removal puts the sender's health ratio 
+def prepare_remove_collateral_underlying_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    amount,
+    asset_id,
+    manager_app_id,
+    market_app_id,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+):
+    """Returns a :class:`TransactionGroup` object representing a remove collateral
+    underlying group transaction against the algofi protocol. Functionally equivalent to
+    remove collateral + burn. The sender requests to remove collateral from a market acount
+    after which the application determines if the removal puts the sender's health ratio
     below 1. If not, the account sends back the user the amount of asset underlying their posted collateral.
 
     :param sender: account address for the sender
@@ -40,13 +49,16 @@ def prepare_remove_collateral_underlying_transactions(sender, suggested_params, 
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
         sp=suggested_params,
         index=manager_app_id,
-        app_args=[manager_strings.remove_collateral_underlying.encode(), int_to_bytes(amount)]
+        app_args=[
+            manager_strings.remove_collateral_underlying.encode(),
+            int_to_bytes(amount),
+        ],
     )
     txn1 = ApplicationNoOpTxn(
         sender=sender,
@@ -55,7 +67,7 @@ def prepare_remove_collateral_underlying_transactions(sender, suggested_params, 
         app_args=[manager_strings.remove_collateral_underlying.encode()],
         foreign_apps=[manager_app_id],
         foreign_assets=[asset_id],
-        accounts=[storage_account]
+        accounts=[storage_account],
     )
     txn_group = TransactionGroup(prefix_transactions + [txn0, txn1])
     return txn_group

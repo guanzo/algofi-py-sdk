@@ -1,11 +1,18 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn, PaymentTxn, AssetTransferTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_sync_vault_transactions(sender, suggested_params, storage_account, manager_app_id, market_app_id, supported_market_app_ids, supported_oracle_app_ids):
+def prepare_sync_vault_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    manager_app_id,
+    market_app_id,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+):
     """Returns a :class:`TransactionGroup` object representing a sync vault transaction
     against the algofi protocol. After governance rewards are paid to the storage account
     this function can be used to sync the extra algos with your algo collateral so they
@@ -35,7 +42,7 @@ def prepare_sync_vault_transactions(sender, suggested_params, storage_account, m
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
@@ -49,7 +56,7 @@ def prepare_sync_vault_transactions(sender, suggested_params, storage_account, m
         index=market_app_id,
         app_args=[manager_strings.sync_vault.encode()],
         foreign_apps=[manager_app_id],
-        accounts=[storage_account]
+        accounts=[storage_account],
     )
     txn_group = TransactionGroup(prefix_transactions + [txn0, txn1])
     return txn_group

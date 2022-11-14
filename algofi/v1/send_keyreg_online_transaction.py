@@ -1,14 +1,25 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup, int_to_bytes
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_send_keyreg_online_transactions(sender, suggested_params, storage_account, vote_pk, selection_pk, state_proof_pk, vote_first, vote_last, vote_key_dilution, 
-                                             manager_app_id, supported_market_app_ids, supported_oracle_app_ids):
+def prepare_send_keyreg_online_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    vote_pk,
+    selection_pk,
+    state_proof_pk,
+    vote_first,
+    vote_last,
+    vote_key_dilution,
+    manager_app_id,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+):
     """Returns a :class:`TransactionGroup` object representing a send keyreg
-    transaction group transaction against the algofi protocol. The sender instructs 
+    transaction group transaction against the algofi protocol. The sender instructs
     the algo vault to register itself online to participate in Algorand's consensus.
     NOTE: The storage account address must be registered with a participation node
     in order for the account to participate in consensus. It is unsafe to register
@@ -49,14 +60,21 @@ def prepare_send_keyreg_online_transactions(sender, suggested_params, storage_ac
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
         sp=suggested_params,
         index=manager_app_id,
-        app_args=[manager_strings.send_keyreg_txn.encode(), vote_pk, selection_pk, state_proof_pk,
-                    int_to_bytes(vote_first), int_to_bytes(vote_last), int_to_bytes(vote_key_dilution)],
+        app_args=[
+            manager_strings.send_keyreg_txn.encode(),
+            vote_pk,
+            selection_pk,
+            state_proof_pk,
+            int_to_bytes(vote_first),
+            int_to_bytes(vote_last),
+            int_to_bytes(vote_key_dilution),
+        ],
         accounts=[storage_account],
     )
 

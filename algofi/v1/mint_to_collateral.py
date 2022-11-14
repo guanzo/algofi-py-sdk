@@ -1,14 +1,24 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn, PaymentTxn, AssetTransferTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_mint_to_collateral_transactions(sender, suggested_params, storage_account, amount, manager_app_id, market_app_id, market_address, supported_market_app_ids, supported_oracle_app_ids, asset_id=None):
+def prepare_mint_to_collateral_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    amount,
+    manager_app_id,
+    market_app_id,
+    market_address,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+    asset_id=None,
+):
     """Returns a :class:`TransactionGroup` object representing a mint to collateral group
-    transaction against the algofi protocol. Functionality equivalent to mint + add_collateral. 
-    The sender sends assets to the account of the asset market application which then calculates 
+    transaction against the algofi protocol. Functionality equivalent to mint + add_collateral.
+    The sender sends assets to the account of the asset market application which then calculates
     and credits the user with an amount of collateral.
 
     :param sender: account address for the sender
@@ -41,7 +51,7 @@ def prepare_mint_to_collateral_transactions(sender, suggested_params, storage_ac
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
@@ -55,7 +65,7 @@ def prepare_mint_to_collateral_transactions(sender, suggested_params, storage_ac
         index=market_app_id,
         app_args=[manager_strings.mint_to_collateral.encode()],
         foreign_apps=[manager_app_id],
-        accounts=[storage_account]
+        accounts=[storage_account],
     )
 
     if asset_id:
@@ -64,14 +74,11 @@ def prepare_mint_to_collateral_transactions(sender, suggested_params, storage_ac
             sp=suggested_params,
             receiver=market_address,
             amt=amount,
-            index=asset_id
+            index=asset_id,
         )
     else:
         txn2 = PaymentTxn(
-            sender=sender,
-            sp=suggested_params,
-            receiver=market_address,
-            amt=amount
+            sender=sender, sp=suggested_params, receiver=market_address, amt=amount
         )
     txn_group = TransactionGroup(prefix_transactions + [txn0, txn1, txn2])
     return txn_group

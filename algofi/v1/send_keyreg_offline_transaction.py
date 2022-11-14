@@ -1,11 +1,17 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup, int_to_bytes
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_send_keyreg_offline_transactions(sender, suggested_params, storage_account, manager_app_id, supported_market_app_ids, supported_oracle_app_ids):
+def prepare_send_keyreg_offline_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    manager_app_id,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+):
     """Returns a :class:`TransactionGroup` object representing a send keyreg
     transaction non participation group transaction against the algofi protocol.
     The sender instructs the algo vault to deregister itself offline from Algorand's consensus.
@@ -36,7 +42,7 @@ def prepare_send_keyreg_offline_transactions(sender, suggested_params, storage_a
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,

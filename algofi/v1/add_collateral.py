@@ -1,13 +1,23 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn, AssetTransferTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_add_collateral_transactions(sender, suggested_params, storage_account, amount, bank_asset_id, manager_app_id, market_app_id, market_address, supported_market_app_ids, supported_oracle_app_ids):
+def prepare_add_collateral_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    amount,
+    bank_asset_id,
+    manager_app_id,
+    market_app_id,
+    market_address,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+):
     """Returns a :class:`TransactionGroup` object representing an add collateral group
-    transaction against the algofi protocol. Sender adds bank assets to collateral by sending 
+    transaction against the algofi protocol. Sender adds bank assets to collateral by sending
     them to the account address of the market application that generates the bank assets.
 
     :param sender: account address for the sender
@@ -40,13 +50,13 @@ def prepare_add_collateral_transactions(sender, suggested_params, storage_accoun
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
         sp=suggested_params,
         index=manager_app_id,
-        app_args=[manager_strings.add_collateral.encode()]
+        app_args=[manager_strings.add_collateral.encode()],
     )
     txn1 = ApplicationNoOpTxn(
         sender=sender,
@@ -54,14 +64,14 @@ def prepare_add_collateral_transactions(sender, suggested_params, storage_accoun
         index=market_app_id,
         app_args=[manager_strings.add_collateral.encode()],
         foreign_apps=[manager_app_id],
-        accounts=[storage_account]
+        accounts=[storage_account],
     )
     txn2 = AssetTransferTxn(
         sender=sender,
         sp=suggested_params,
         receiver=market_address,
         amt=amount,
-        index=bank_asset_id
+        index=bank_asset_id,
     )
     txn_group = TransactionGroup(prefix_transactions + [txn0, txn1, txn2])
     return txn_group
