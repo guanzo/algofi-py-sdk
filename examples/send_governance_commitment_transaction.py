@@ -6,7 +6,11 @@ from dotenv import dotenv_values
 from algosdk import mnemonic, account
 from algofi.v1.asset import Asset
 from algofi.v1.client import AlgofiTestnetClient, AlgofiMainnetClient
-from algofi.utils import get_ordered_symbols, prepare_payment_transaction, get_new_account
+from algofi.utils import (
+    get_ordered_symbols,
+    prepare_payment_transaction,
+    get_new_account,
+)
 
 from example_utils import print_market_state, print_user_state
 
@@ -19,12 +23,16 @@ ENV_PATH = os.path.join(my_path, ".env")
 
 # load user passphrase
 user = dotenv_values(ENV_PATH)
-sender = mnemonic.to_public_key(user['mnemonic'])
-key =  mnemonic.to_private_key(user['mnemonic'])
+sender = mnemonic.to_public_key(user["mnemonic"])
+key = mnemonic.to_private_key(user["mnemonic"])
 
 # IS_MAINNET
 IS_MAINNET = True
-client = AlgofiMainnetClient(user_address=sender) if IS_MAINNET else AlgofiTestnetClient(user_address=sender)
+client = (
+    AlgofiMainnetClient(user_address=sender)
+    if IS_MAINNET
+    else AlgofiTestnetClient(user_address=sender)
+)
 ALGO = client.get_active_assets()["ALGO"]
 
 # NOTE: Get the live governance address at https://governance.algorand.foundation/api/periods/
@@ -40,11 +48,19 @@ commitment_amount_scaled = ALGO.get_scaled_amount(commitment_amount)
 
 vault_address = client.manager.get_storage_address(address)
 
-print("~"*100)
-print("Processing send_governance_commitment_transaction transaction for vault address " + vault_address)
-print("~"*100)
+print("~" * 100)
+print(
+    "Processing send_governance_commitment_transaction transaction for vault address "
+    + vault_address
+)
+print("~" * 100)
 
-txn = client.prepare_send_governance_commitment_transactions(governance_address, commitment_amount_scaled, address=address, beneficiary=beneficiary)
+txn = client.prepare_send_governance_commitment_transactions(
+    governance_address,
+    commitment_amount_scaled,
+    address=address,
+    beneficiary=beneficiary,
+)
 txn.sign_with_private_key(sender, key)
 txn.submit(client.algod, wait=True)
 
@@ -53,7 +69,10 @@ txn.submit(client.algod, wait=True)
 # to confirm successful commitment of ALGOs
 
 # print final state
-print("~"*100)
+print("~" * 100)
 print("Final State")
-print("Sent send_governance_commitment_transaction transaction for vault address " + vault_address)
-print("~"*100)
+print(
+    "Sent send_governance_commitment_transaction transaction for vault address "
+    + vault_address
+)
+print("~" * 100)

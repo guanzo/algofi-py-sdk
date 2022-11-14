@@ -1,14 +1,24 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn, PaymentTxn, AssetTransferTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_repay_borrow_transactions(sender, suggested_params, storage_account, amount, manager_app_id, market_app_id, market_address, supported_market_app_ids, supported_oracle_app_ids, asset_id=None):
-    """Returns a :class:`TransactionGroup` object representing a repay borrow 
-    group transaction against the algofi protocol. The sender repays assets to the 
-    market of the borrow asset after which the market application decreases the 
+def prepare_repay_borrow_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    amount,
+    manager_app_id,
+    market_app_id,
+    market_address,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+    asset_id=None,
+):
+    """Returns a :class:`TransactionGroup` object representing a repay borrow
+    group transaction against the algofi protocol. The sender repays assets to the
+    market of the borrow asset after which the market application decreases the
     outstanding borrow amount for the sender.
 
     :param sender: account address for the sender
@@ -41,13 +51,13 @@ def prepare_repay_borrow_transactions(sender, suggested_params, storage_account,
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
         sp=suggested_params,
         index=manager_app_id,
-        app_args=[manager_strings.repay_borrow.encode()]
+        app_args=[manager_strings.repay_borrow.encode()],
     )
     txn1 = ApplicationNoOpTxn(
         sender=sender,
@@ -56,7 +66,7 @@ def prepare_repay_borrow_transactions(sender, suggested_params, storage_account,
         app_args=[manager_strings.repay_borrow.encode()],
         foreign_apps=[manager_app_id],
         foreign_assets=[asset_id] if asset_id else [],
-        accounts=[storage_account]
+        accounts=[storage_account],
     )
     if asset_id:
         txn2 = AssetTransferTxn(
@@ -64,14 +74,11 @@ def prepare_repay_borrow_transactions(sender, suggested_params, storage_account,
             sp=suggested_params,
             receiver=market_address,
             amt=amount,
-            index=asset_id
+            index=asset_id,
         )
     else:
         txn2 = PaymentTxn(
-            sender=sender,
-            sp=suggested_params,
-            receiver=market_address,
-            amt=amount
+            sender=sender, sp=suggested_params, receiver=market_address, amt=amount
         )
     txn_group = TransactionGroup(prefix_transactions + [txn0, txn1, txn2])
     return txn_group

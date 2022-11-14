@@ -1,14 +1,22 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup, int_to_bytes
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_send_governance_transactions(sender, suggested_params, storage_account, governance_address, note, manager_app_id, supported_market_app_ids, supported_oracle_app_ids):
+def prepare_send_governance_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    governance_address,
+    note,
+    manager_app_id,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+):
     """Returns a :class:`TransactionGroup` object representing a send governance
-    transaction group transaction against the algofi protocol. The sender either (1) instructs 
-    the algo vault to opt into governance or (2) vote on governance issues by sending 
+    transaction group transaction against the algofi protocol. The sender either (1) instructs
+    the algo vault to opt into governance or (2) vote on governance issues by sending
     a zero value payment inner transaction to the governance address with the commitment
     or vote specified in the notes field. For commitment, the user can optionally
     specify a beneficiary - an account that receives the rewards payout at the conclusion
@@ -40,7 +48,7 @@ def prepare_send_governance_transactions(sender, suggested_params, storage_accou
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
@@ -48,7 +56,7 @@ def prepare_send_governance_transactions(sender, suggested_params, storage_accou
         index=manager_app_id,
         app_args=[manager_strings.send_governance_txn.encode()],
         accounts=[storage_account, governance_address],
-        note=note
+        note=note,
     )
 
     txn_group = TransactionGroup(prefix_transactions + [txn0])

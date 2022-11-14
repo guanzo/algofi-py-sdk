@@ -7,9 +7,18 @@ from ..utils import read_local_state, read_global_state, get_global_state_field
 from ..contract_strings import algofi_manager_strings as manager_strings
 from ..contract_strings import algofi_market_strings as market_strings
 
-class Asset:
 
-    def __init__(self, indexer_client: IndexerClient, historical_indexer_client: IndexerClient, underlying_asset_id, bank_asset_id, oracle_app_id=None, oracle_price_field=None, oracle_price_scale_factor=None):
+class Asset:
+    def __init__(
+        self,
+        indexer_client: IndexerClient,
+        historical_indexer_client: IndexerClient,
+        underlying_asset_id,
+        bank_asset_id,
+        oracle_app_id=None,
+        oracle_price_field=None,
+        oracle_price_scale_factor=None,
+    ):
         """Constructor me.
 
         :param indexer_client: a :class:`IndexerClient` for interacting with the network
@@ -37,20 +46,24 @@ class Asset:
 
         if underlying_asset_id != 1:
             try:
-                underlying_asset_info = self.indexer.asset_info(underlying_asset_id).get("asset",{})
+                underlying_asset_info = self.indexer.asset_info(
+                    underlying_asset_id
+                ).get("asset", {})
                 self.underlying_asset_info = underlying_asset_info["params"]
             except:
-                raise Exception("Asset with id " + str(underlying_asset_id) + " does not exist.")
+                raise Exception(
+                    "Asset with id " + str(underlying_asset_id) + " does not exist."
+                )
         else:
-            self.underlying_asset_info = {"decimals":6}
+            self.underlying_asset_info = {"decimals": 6}
 
         try:
-            bank_asset_info = self.indexer.asset_info(bank_asset_id).get("asset",{})
+            bank_asset_info = self.indexer.asset_info(bank_asset_id).get("asset", {})
         except:
             raise Exception("Asset with id " + str(bank_asset_id) + " does not exist.")
 
         self.bank_asset_info = bank_asset_info["params"]
-        
+
         # oracle info
         if oracle_app_id != None:
             assert oracle_price_field != None
@@ -67,7 +80,7 @@ class Asset:
         :rtype: int
         """
         return self.underlying_asset_id
-    
+
     def get_underlying_asset_info(self):
         """Returns underying asset info
 
@@ -75,7 +88,7 @@ class Asset:
         :rtype: dict
         """
         return self.underlying_asset_info
-    
+
     def get_bank_asset_id(self):
         """Returns bank asset id
 
@@ -83,7 +96,7 @@ class Asset:
         :rtype: int
         """
         return self.bank_asset_id
-    
+
     def get_bank_asset_info(self):
         """Returns bank asset info
 
@@ -99,7 +112,7 @@ class Asset:
         :rtype: int
         """
         return self.oracle_app_id
-    
+
     def get_oracle_price_field(self):
         """Returns oracle price field
 
@@ -107,7 +120,7 @@ class Asset:
         :rtype: string
         """
         return self.oracle_price_field
-    
+
     def get_oracle_price_scale_factor(self):
         """Returns oracle price scale factor
 
@@ -115,7 +128,7 @@ class Asset:
         :rtype: int
         """
         return self.oracle_price_scale_factor
-    
+
     def get_raw_price(self, block=None, update=True):
         """Returns the current raw oracle price if update.
            Else returns the latest updated raw price
@@ -132,19 +145,26 @@ class Asset:
         if not update:
             return self.oracle_raw_price
         elif block:
-            return get_global_state_field(self.historical_indexer, self.oracle_app_id, self.oracle_price_field, block=block)
+            return get_global_state_field(
+                self.historical_indexer,
+                self.oracle_app_id,
+                self.oracle_price_field,
+                block=block,
+            )
         else:
-            self.oracle_raw_price = get_global_state_field(self.indexer, self.oracle_app_id, self.oracle_price_field)
+            self.oracle_raw_price = get_global_state_field(
+                self.indexer, self.oracle_app_id, self.oracle_price_field
+            )
             return self.oracle_raw_price
-    
+
     def get_underlying_decimals(self):
         """Returns decimals of asset
 
         :return: decimals
         :rtype: int
         """
-        return self.underlying_asset_info['decimals']
-    
+        return self.underlying_asset_info["decimals"]
+
     def get_price(self, block=None, update=True):
         """Returns the current oracle price if update.
            Else returns the latest updated price
@@ -159,11 +179,14 @@ class Asset:
         if self.oracle_app_id == None:
             raise Exception("no oracle app id for asset")
         raw_price = self.get_raw_price(block=block, update=update)
-        return float((raw_price * 10**self.get_underlying_decimals()) / (self.get_oracle_price_scale_factor() * 1e3))
-    
+        return float(
+            (raw_price * 10 ** self.get_underlying_decimals())
+            / (self.get_oracle_price_scale_factor() * 1e3)
+        )
+
     def to_usd(self, amount, block=None, update=True):
         """Return the usd value of the underlying amount (base units)
-        
+
         :param amount: integer amount of base underlying units
         :type amount: int
         :param block: block at which to get historical data
@@ -172,7 +195,7 @@ class Asset:
         :rtype: float
         """
         price = self.get_price(block=block, update=update)
-        return float(amount * price / (10**self.get_underlying_decimals()))
+        return float(amount * price / (10 ** self.get_underlying_decimals()))
 
     def get_scaled_amount(self, amount):
         """Returns an integer representation of asset amount scaled by asset's decimals
@@ -182,7 +205,7 @@ class Asset:
         :rtype: int
         """
 
-        return int(amount * 10**(self.underlying_asset_info['decimals']))
+        return int(amount * 10 ** (self.underlying_asset_info["decimals"]))
 
     def get_decimal_amount(self, amount):
         """Returns an decimal representation of asset amount devided by asset's decimals
@@ -192,4 +215,4 @@ class Asset:
         :rtype: int
         """
 
-        return (amount / 10**(self.underlying_asset_info['decimals']))
+        return amount / 10 ** (self.underlying_asset_info["decimals"])

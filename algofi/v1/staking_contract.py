@@ -10,8 +10,14 @@ from .asset import Asset
 from .manager import Manager
 from .market import Market
 
+
 class StakingContract:
-    def __init__(self, indexer_client: IndexerClient, historical_indexer_client: IndexerClient, staking_contract_info):
+    def __init__(
+        self,
+        indexer_client: IndexerClient,
+        historical_indexer_client: IndexerClient,
+        staking_contract_info,
+    ):
         """Constructor method for the generic client.
 
         :param indexer_client: a :class:`IndexerClient` for interacting with the network
@@ -25,12 +31,20 @@ class StakingContract:
         self.indexer = indexer_client
         self.historical_indexer = historical_indexer_client
 
-        self.manager = Manager(self.indexer, self.historical_indexer, staking_contract_info.get("managerAppId"))
-        self.market = Market(self.indexer, self.historical_indexer, staking_contract_info.get("marketAppId"))
-        
+        self.manager = Manager(
+            self.indexer,
+            self.historical_indexer,
+            staking_contract_info.get("managerAppId"),
+        )
+        self.market = Market(
+            self.indexer,
+            self.historical_indexer,
+            staking_contract_info.get("marketAppId"),
+        )
+
         # read manager and market global state
         self.update_global_state()
-    
+
     def update_global_state(self, block=None):
         """Method to fetch most recent staking contract global state
 
@@ -42,18 +56,18 @@ class StakingContract:
         self.get_market().update_global_state(block=block)
 
     # GETTERS
-    
+
     def get_manager(self):
         """Return staking contract manager
-        
+
         :return: manager
         :rtype: :class:`Manager`
         """
         return self.manager
-        
+
     def get_market(self):
         """Return staking contract market
-        
+
         :return: market
         :rtype: :class:`Market`
         """
@@ -66,23 +80,23 @@ class StakingContract:
         :rtype: :class:`Asset`
         """
         return self.get_market().get_asset()
-    
+
     def get_manager_app_id(self):
         """Return manager app id
-        
+
         :return: manager app id
         :rtype: int
         """
         return self.get_manager().get_manager_app_id()
-    
+
     def get_manager_address(self):
         """Return manager address
-        
+
         :return: manager address
         :rtype: string
         """
         return self.get_manager().get_manager_address()
-    
+
     def get_market_app_id(self):
         """Returns the market app id
 
@@ -90,10 +104,10 @@ class StakingContract:
         :rtype: int
         """
         return self.get_market().get_market_app_id()
-    
+
     def get_market_address(self):
         """Returns the market address
-        
+
         :return: market address
         :rtype: string
         """
@@ -101,7 +115,7 @@ class StakingContract:
 
     def get_oracle_app_id(self):
         """Returns the oracle app id
-        
+
         :return: oracle app id
         :rtype: int
         """
@@ -109,7 +123,7 @@ class StakingContract:
 
     def get_staked(self):
         """Return staked amount
-        
+
         :return: staked
         :rtype: int
         """
@@ -117,7 +131,7 @@ class StakingContract:
 
     def get_rewards_program(self):
         """Return a list of current rewards program
-        
+
         :return: rewards program
         :rtype: :class:`RewardsProgram`
         """
@@ -134,7 +148,7 @@ class StakingContract:
         :rtype: string
         """
         return self.get_manager().get_storage_address(address)
-    
+
     def get_user_state(self, address):
         """Returns the staking contract local state for address.
 
@@ -147,7 +161,7 @@ class StakingContract:
         if not storage_address:
             raise Exception("no storage address found")
         return self.get_storage_state(storage_address)
-    
+
     def get_storage_state(self, storage_address):
         """Returns the staking contract local state for storage_address.
 
@@ -157,12 +171,17 @@ class StakingContract:
         :rtype: dict
         """
         result = {}
-        unrealized_rewards, secondary_unrealized_rewards = self.get_manager().get_storage_unrealized_rewards(storage_address, [self.get_market()])
+        (
+            unrealized_rewards,
+            secondary_unrealized_rewards,
+        ) = self.get_manager().get_storage_unrealized_rewards(
+            storage_address, [self.get_market()]
+        )
         result["unrealized_rewards"] = unrealized_rewards
         result["secondary_unrealized_rewards"] = secondary_unrealized_rewards
-    
+
         user_market_state = self.get_market().get_storage_state(storage_address)
         result["staked_bank"] = user_market_state["active_collateral_bank"]
         result["staked_underlying"] = user_market_state["active_collateral_underlying"]
-        
+
         return result

@@ -6,19 +6,18 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="algofi-py-sdk",
-    description="Algofi Lending Protocol Python SDK",
-    author="Algofi",
+    description="The official Algofi V1 Python SDK",
+    author="Algofi, Inc.",
     author_email="founders@algofi.org",
-    version="1.1.1",
+    version="1.2.0",
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="MIT",
     project_urls={
         "Source": "https://github.com/Algofiorg/algofi-py-sdk",
     },
-    install_requires=["py-algorand-sdk >= 1.6.0"],
     packages=setuptools.find_packages(),
-    python_requires=">=3.7",
-    package_data={'algofi.v1': ['contracts.json']},
+    python_requires=">=3.8",
+    package_data={"algofi.v1": ["contracts.json"]},
     include_package_data=True,
 )

@@ -1,15 +1,26 @@
-
 from algosdk.future.transaction import ApplicationNoOpTxn, PaymentTxn, AssetTransferTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup
 from ..contract_strings import algofi_manager_strings as manager_strings
 
 
-def prepare_mint_transactions(sender, suggested_params, storage_account, amount, bank_asset_id, manager_app_id, market_app_id, market_address, supported_market_app_ids, supported_oracle_app_ids, asset_id=None):
+def prepare_mint_transactions(
+    sender,
+    suggested_params,
+    storage_account,
+    amount,
+    bank_asset_id,
+    manager_app_id,
+    market_app_id,
+    market_address,
+    supported_market_app_ids,
+    supported_oracle_app_ids,
+    asset_id=None,
+):
     """Returns a :class:`TransactionGroup` object representing a mint group
     transaction against the algofi protocol. bAssets are not automatically
-    posted to collateral as in `prepare_mint_to_collateral_transactions`. 
-    Sender sends assets to the account of the asset market application which 
+    posted to collateral as in `prepare_mint_to_collateral_transactions`.
+    Sender sends assets to the account of the asset market application which
     then sends an amount of market bank assets to the user.
 
     :param sender: account address for the sender
@@ -44,13 +55,13 @@ def prepare_mint_transactions(sender, suggested_params, storage_account, amount,
         manager_app_id=manager_app_id,
         supported_market_app_ids=supported_market_app_ids,
         supported_oracle_app_ids=supported_oracle_app_ids,
-        storage_account=storage_account
+        storage_account=storage_account,
     )
     txn0 = ApplicationNoOpTxn(
         sender=sender,
         sp=suggested_params,
         index=manager_app_id,
-        app_args=[manager_strings.mint.encode()]
+        app_args=[manager_strings.mint.encode()],
     )
     txn1 = ApplicationNoOpTxn(
         sender=sender,
@@ -59,7 +70,7 @@ def prepare_mint_transactions(sender, suggested_params, storage_account, amount,
         app_args=[manager_strings.mint.encode()],
         foreign_apps=[manager_app_id],
         foreign_assets=[bank_asset_id],
-        accounts=[storage_account]
+        accounts=[storage_account],
     )
     if asset_id:
         txn2 = AssetTransferTxn(
@@ -67,14 +78,11 @@ def prepare_mint_transactions(sender, suggested_params, storage_account, amount,
             sp=suggested_params,
             receiver=market_address,
             amt=amount,
-            index=asset_id
+            index=asset_id,
         )
     else:
         txn2 = PaymentTxn(
-            sender=sender,
-            sp=suggested_params,
-            receiver=market_address,
-            amt=amount
+            sender=sender, sp=suggested_params, receiver=market_address, amt=amount
         )
     txn_group = TransactionGroup(prefix_transactions + [txn0, txn1, txn2])
     return txn_group
