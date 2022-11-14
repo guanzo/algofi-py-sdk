@@ -3,7 +3,7 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/Algofiorg/algofi-py-sdk/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/Algofiorg/algofi-py-sdk/tree/main)
 [![Documentation Status](https://readthedocs.org/projects/algofi-py-sdk/badge/?version=latest)](https://algofi-py-sdk.readthedocs.io/en/latest/?badge=latest)
 
-The official Algofi V1 Python SDK
+The official Algofi V1 Python SDK. In the process of being deprecated and replaced by the [Algofi V2 Python SDK](https://github.com/Algofiorg/algofi-python-sdk).
 
 ## Documentation
 https://algofi-py-sdk.readthedocs.io/en/latest/index.html
