@@ -1,3 +1,5 @@
+![algofi-py-sdk](https://user-images.githubusercontent.com/18899131/201798470-e5831f45-9e57-42de-bf0c-de26e1b1812c.jpg)
+
 # algofi-py-sdk
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/Algofiorg/algofi-py-sdk/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/Algofiorg/algofi-py-sdk/tree/main)
