@@ -39,7 +39,7 @@ class Market:
         self.market_address = logic.get_application_address(self.market_app_id)
         self.created_at_round = self.indexer.applications(self.market_app_id)[
             "application"
-        ]["created-at-round"]
+        ].get("created-at-round")
 
         # read market global state
         self.update_global_state()
