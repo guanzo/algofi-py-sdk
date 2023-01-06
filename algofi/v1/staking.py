@@ -1,6 +1,6 @@
 from copy import deepcopy
 from algosdk import logic
-from algosdk.future.transaction import (
+from algosdk.transaction import (
     ApplicationOptInTxn,
     AssetOptInTxn,
     ApplicationNoOpTxn,
@@ -31,7 +31,7 @@ def prepare_staking_contract_optin_transactions(
     :param storage_address: address of the storage account
     :type storage_address: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :return: :class:`TransactionGroup` object representing a manager opt in group transaction
     :rtype: :class:`TransactionGroup`
     """
@@ -78,7 +78,7 @@ def prepare_stake_transactions(
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :param storage_account: storage account address for sender
     :type storage_account: string
     :param amount: amount of asset to supply for minting collateral
@@ -154,7 +154,7 @@ def prepare_unstake_transactions(
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :param storage_account: storage account address for sender
     :type storage_account: string
     :param amount: amount of collateral to remove from the market
@@ -230,7 +230,7 @@ def prepare_claim_staking_rewards_transactions(
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :param storage_account: storage account address for sender
     :type storage_account: string
     :param manager_app_id: id of the manager application

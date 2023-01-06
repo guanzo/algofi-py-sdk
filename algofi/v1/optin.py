@@ -1,5 +1,5 @@
 from algosdk import logic
-from algosdk.future.transaction import (
+from algosdk.transaction import (
     ApplicationOptInTxn,
     AssetOptInTxn,
     ApplicationNoOpTxn,
@@ -32,7 +32,7 @@ def prepare_manager_app_optin_transactions(
     :param storage_address: address of the storage account
     :type storage_address: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :return: :class:`TransactionGroup` object representing a manager opt in group transaction
     :rtype: :class:`TransactionGroup`
     """
@@ -75,7 +75,7 @@ def prepare_market_app_optin_transactions(market_app_id, sender, suggested_param
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :return: :class:`TransactionGroup` object representing a market opt in group transaction
     :rtype: :class:`TransactionGroup`
     """
@@ -98,7 +98,7 @@ def prepare_asset_optin_transactions(asset_id, sender, suggested_params):
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :return: :class:`TransactionGroup` object representing an asset opt in group transaction
     :rtype: :class:`TransactionGroup`
     """

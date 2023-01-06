@@ -3,10 +3,10 @@ import json
 from random import randint
 from enum import Enum
 from base64 import b64decode, b64encode
-from algosdk.future.transaction import LogicSigTransaction, assign_group_id
+from algosdk.transaction import LogicSigTransaction, assign_group_id
 from algosdk import encoding, account, mnemonic
 from algosdk.error import AlgodHTTPError
-from algosdk.future.transaction import PaymentTxn
+from algosdk.transaction import PaymentTxn
 from .contract_strings import algofi_manager_strings as manager_strings
 from .contract_strings import algofi_market_strings as market_strings
 
@@ -322,7 +322,7 @@ def prepare_payment_transaction(
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :param receiver: account address for the receiver
     :type receiver: string
     :param amount: amount of algos to send

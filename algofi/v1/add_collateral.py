@@ -1,4 +1,4 @@
-from algosdk.future.transaction import ApplicationNoOpTxn, AssetTransferTxn
+from algosdk.transaction import ApplicationNoOpTxn, AssetTransferTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup
 from ..contract_strings import algofi_manager_strings as manager_strings
@@ -23,7 +23,7 @@ def prepare_add_collateral_transactions(
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :param storage_account: storage account address for sender
     :type storage_account: string
     :param amount: amount of bank asset to add to collateral

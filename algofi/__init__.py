@@ -3,5 +3,5 @@ This module contains all the relevant classes and data for interacting with the 
 """
 
 __all__ = ["v1", "contract_strings", "utils"]
-__version__ = "1.2.1"
+__version__ = "1.3.0"
 __author__ = "Algofi, Inc."

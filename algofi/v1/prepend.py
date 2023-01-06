@@ -1,6 +1,6 @@
 from copy import deepcopy
 from random import randint
-from algosdk.future.transaction import ApplicationNoOpTxn
+from algosdk.transaction import ApplicationNoOpTxn
 from ..utils import Transactions
 from ..contract_strings import algofi_manager_strings as manager_strings
 
@@ -41,7 +41,7 @@ def get_init_txns(
     :param sender: account address for the sender
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :param manager_app_id: id of the manager application
     :type manager_app_id: int
     :param supported_market_app_ids: list of supported market application ids

@@ -1,4 +1,4 @@
-from algosdk.future.transaction import ApplicationNoOpTxn, PaymentTxn, AssetTransferTxn
+from algosdk.transaction import ApplicationNoOpTxn, PaymentTxn, AssetTransferTxn
 from .prepend import get_init_txns
 from ..utils import Transactions, TransactionGroup
 from ..contract_strings import algofi_manager_strings as manager_strings
@@ -33,7 +33,7 @@ def prepare_liquidate_transactions(
     :param sender: account address for the sender (liquidator)
     :type sender: string
     :param suggested_params: suggested transaction params
-    :type suggested_params: :class:`algosdk.future.transaction.SuggestedParams` object
+    :type suggested_params: :class:`algosdk.transaction.SuggestedParams` object
     :param storage_account: storage account address for sender (liquidator)
     :type storage_account: string
     :param liquidatee_storage_account: storage account address for liquidatee
