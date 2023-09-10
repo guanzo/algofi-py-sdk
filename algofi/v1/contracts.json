@@ -118,7 +118,7 @@
             "goETH",
             "STBL",
             "vALGO",
-            "SEVN",
+            "asset",
             "EGHT",
             "NINE",
             "TENN",
@@ -166,9 +166,11 @@
                 "bankAssetId": 680408335,
                 "underlyingAssetId": 1
             },
-            "SEVN": {
+            "asset": {
                 "marketCounter": 7,
-                "marketAppId": 465814371
+                "marketAppId": 465814371,
+                "bankAssetId": 1146376574,
+                "underlyingAssetId": 1146385049
             },
             "EGHT": {
                 "marketCounter": 8,
@@ -208,7 +210,7 @@
             }
         },
         "managerAppId": 465818260,
-        "supportedMarketCount": 6,
+        "supportedMarketCount": 7,
         "maxAtomicOptInMarketCount": 13,
         "maxMarketCount": 16,
         "initRound": 18011265,
@@ -248,6 +250,18 @@
                 "managerAppId": 635866213,
                 "bankAssetId": 635877693,
                 "underlyingAssetId": 635854339
+            },
+            "OPUL": {
+                "marketAppId": 674526408,
+                "managerAppId": 674527132,
+                "bankAssetId": 674529164,
+                "underlyingAssetId": 287867876
+            },
+            "DEFLY": {
+                "marketAppId": 641499935,
+                "managerAppId": 641500474,
+                "bankAssetId": 641501566,
+                "underlyingAssetId": 470842789
             }
         }
     }
